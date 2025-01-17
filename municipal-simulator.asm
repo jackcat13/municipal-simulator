@@ -2,13 +2,16 @@ format ELF64
 
 section '.text' executable
 public _start
-extern InitWindow
+extrn InitWindow
 
 _start:
     mov rdi, 800
-    mob rsi, 600
+    mov rsi, 600
     mov rdx, title
     call InitWindow
+    
+_loop:
+    jmp _loop
 
 
 section '.data' writeable
