@@ -1,0 +1,61 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-ubuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: fasm-install
+      run: |
+        wget https://flatassembler.net/fasm-1.73.32.tgz
+        tar -xvzf *.tgz
+        rm *.tgz
+    
+    - name: make ubuntu
+      run: |
+        export PATH="./fasm:$PATH"
+        make ubuntu
+
+    - name: Archive binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: ubuntu-bin
+        path: |
+          municipal-simulator
+
+  build-windows:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+   
+      - name: fams-install
+        run: |
+          C:\msys64\usr\bin\wget.exe https://flatassembler.net/fasmw17332.zip
+
+      - name: extract fasm
+        run: |
+          7z x *.zip
+
+      - name: make windows
+        run: |
+          set PATH=%PATH%./fasm;
+          make windows
+
+      - name: Archive binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-bin
+          path: |
+            municipal-simulator.exe
+

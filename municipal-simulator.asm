@@ -2,6 +2,7 @@ format ELF64
 
 section '.text' executable
 public main
+public _start
 extrn BeginDrawing
 extrn ClearBackground
 extrn CloseWindow
@@ -11,6 +12,7 @@ extrn InitWindow
 extrn WindowShouldClose
 
 main:
+_start:
     mov rdi, 800
     mov rsi, 600
     mov rdx, title
