@@ -13,9 +13,10 @@ extrn WindowShouldClose
 
 main:
 _start:
-    mov rdi, 800
-    mov rsi, 600
-    mov rdx, title
+    sub rsp, 40
+    mov ecx, 800
+    mov edx, 600
+    mov r8, title
     call InitWindow
 
     .not_closed_window:
@@ -24,7 +25,7 @@ _start:
         jnz .closed_window
 
         call BeginDrawing
-        mov rdi, 0xFF181818
+        mov ecx, 0xFF181818
         call ClearBackground
         call EndDrawing
         
@@ -32,7 +33,7 @@ _start:
     
     .closed_window:
         call CloseWindow
-        mov rdi, 0
+        mov ecx, 0
         call _exit
 
 section '.data' writeable
